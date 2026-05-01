@@ -1,0 +1,29 @@
+
+Discuss what's in the stack:
+	- operationally: A Docker Compose project running more than a dozen services
+	- Can also be all installed on a single server (or laptop!), or on a few machines (e.g. database on server, model execution on cluster, all others on laptop or unused)
+	- Most important components: postgres database, runners for each model, web frontends (database, workflow creation, routing dashboards), Rstudio, REST api, documentation pages
+	- 
+
+
+Discuss prereqs:
+	- add site to db: lat/lon, altitude, mean annual temp/precip, soil % sand/clay
+		(show in bety)
+	- define PFT:
+		- member species (species.csv)
+		- parameters -> assign priors (prior.distns.csv)
+	- Calculate initial conditions
+		- save as a netcdf (or ensemble of them)
+		- params not initialized here get taken from model defaults (e.g. sipnet.param)
+		- specify path in settings$inputs$poolinitcond
+Options for running model:
+	- web interface is limited and not very maintained. I use it for quick tests and as a starting point for more involved simulations, but it's less useful than we hoped and may be formally deprecated soon
+	- log in directly to machine and run from command line (how I'll demo)
+		(well, technically I do things through a Docker wrapper, but conceptually the same)
+	- Rstudio web interface
+	- REST api generates excitedment every time we demo it but most users seem to gravitate back to terminal
+		see https://github.com/pecanProject/rpecanapi
+
+Workflow.R: 
+	- reads as a series of transformations on a single `settings` object. Some encapsulate data retrieval/generation, others essentially bookkeeping
+	- 

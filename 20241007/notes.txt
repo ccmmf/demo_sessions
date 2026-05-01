@@ -1,0 +1,94 @@
+add new site
+	New sitegroup in Bety
+		CCMMF
+	via right click: 
+		- zoom in on Winters CA
+		- look for two doglegs in Putah Creek Road south of town
+		- right click in green area
+		- name: Wolfskill
+		- site group: CCMMF
+		- Elevation: 41 m (per CIMIS Winters station data)
+		- MAT / MAP: 16.4 C / 487 mm (NWS station halfway to Davis; close enough)
+		- sand / clay: 32 / 25 (Yolo loam; note that S portion of site may be Yolo Silt Loam and more like 7% sand / 30% clay)
+
+
+model: Sipnet
+use conversion yes
+pft: temperate deciduous, soil
+dates: 2020-01-01 to 2023-12-31
+met: use CRUNCEP
+edit: all 3 yes
+
+
+xml edit:
+	ensemble size 3, variable TotSoilCarb
+
+
+run reports error very quickly: CRUNCEP ends in 2010
+
+redid as above but 2006-2010, added sensitivity analysis -2,-1,0,1,2
+
+
+
+download run result:
+	docker compose cp -r executor:/data/workflows/PEcAn_99000000019 ~/cur/ccmmf/pecan_demo_20241007/webruns
+
+move ICs to docker:
+	 Note none of the temperate deciduous anchor sites are very much at all like an almond orchard -- most sites this warm and dry are grasslands.
+	 Arbitrarily grabbed IC files from LTER-CWT (site 1-4952), which is in GA; can adjust as needed from here
+
+	docker compose exec -it executor mkdir -p /data/demo/sites/wolfskill
+	docker compose cp ~/cur/ccmmf/pecan_demo_20241007/dongchen_IC/IC/1000004952/IC_site_1-4952_1.nc executor:/data/demo/sites/wolfskill/IC_1.nc
+	docker compose cp ~/cur/ccmmf/pecan_demo_20241007/dongchen_IC/IC/1000004952/IC_site_1-4952_50.nc executor:/data/demo/sites/wolfskill/IC_2.nc
+	docker compose cp ~/cur/ccmmf/pecan_demo_20241007/dongchen_IC/IC/1000004952/IC_site_1-4952_100.nc executor:/data/demo/sites/wolfskill/IC_3.nc
+
+try sending xml to Docker:
+docker compose cp ~/cur/ccmmf/pecan_demo_20241007/wolfskill.xml executor:/data/demo/workflows/Wolfskill_1/wolfskill.xml
+docker compose exec -it executor /work/workflow.R --settings /data/demo/workflows/Wolfskill_1/wolfskill.xml
+
+- forces new meta-analysis, overwriting files in workflow 99000000019 (including removing sensitivity analysis results I'd been hoping to show) => commented out outdirs in pfts section of xml
+- errors on trying to use `Wolfskill_1` as workflow id ==> commented out whole workflow section of xml
+=> went ahead and changed all outdirs to Wolfskill_2
+
+
+
+docker compose exec -it executor mkdir -p /data/demo/workflows/Wolfskill_2  
+docker compose cp ~/cur/ccmmf/pecan_demo_20241007/wolfskill.xml executor:/data/demo/workflows/Wolfskill_2/wolfskill.xml
+docker compose exec -it executor /work/workflow.R --settings /data/demo/workflows/Wolfskill_2/wolfskill.xml
+
+
+- Fails with cryptic error about read.table getting wrong arguments
+=> Comment out all paths other than root <outdir>, comment out settings.info so update.settings will expand paths
+- update outdir to Wolfskill_3
+
+docker compose exec -it executor mkdir -p /data/demo/workflows/Wolfskill_3
+docker compose cp ~/cur/ccmmf/pecan_demo_20241007/wolfskill.xml executor:/data/demo/workflows/Wolfskill_3/wolfskill.xml
+docker compose exec -it executor /work/workflow.R --settings /data/demo/workflows/Wolfskill_3/wolfskill.xml
+
+same error (but yes, paths throughout settings do update correctly now)
+
+try adding pft.site
+
+echo 'site,pft\n99000000001,temperate.deciduous' >> site_pft.csv
+# added `<pft.site><path>/data/demo/sites/wolfskill/site_pft.csv</path></pft.site>` to settings.inputs
+# yeah, weird path if this is were a multisite run, but it's not and this way I don't have to update the path every workflow
+    
+docker compose exec -it executor mkdir -p /data/demo/workflows/Wolfskill_4
+docker compose cp ~/cur/ccmmf/pecan_demo_20241007/site_pft.csv executor:/data/demo/sites/wolfskill/site_pft.csv
+docker compose cp ~/cur/ccmmf/pecan_demo_20241007/wolfskill.xml executor:/data/demo/workflows/Wolfskill_4/wolfskill.xml
+docker compose exec -it executor /work/workflow.R --settings /data/demo/workflows/Wolfskill_4/wolfskill.xml
+
+- finishes!
+
+
+Refinements:
+	- David recommends dropping soil PFT for clarity
+	- be sure to save console output
+
+- deleted soil from pfts
+- bumped ensemble size to 10
+
+docker compose exec -it executor mkdir -p /data/demo/workflows/Wolfskill_5
+docker compose cp ~/cur/ccmmf/pecan_demo_20241007/wolfskill.xml executor:/data/demo/workflows/Wolfskill_5/wolfskill.xml
+docker compose exec -it executor bash -c '/work/workflow.R --settings /data/demo/workflows/Wolfskill_5/wolfskill.xml 2>&1 | tee /data/demo/workflows/Wolfskill_5/workflow.Rout'
+
