@@ -1,0 +1,32 @@
+Chris trying to run through demo on the NCSA cluster:
+
+ssh ccmmf.ncsa.cloud 
+cd /project/60007/cblack/pecan-demo/
+mkdir 20260421
+cd 20260421
+source /project/60007/cblack/.conda/envs/pecan-all/bin/activate
+
+export HOST_ARGS='sbatch -n4 --mem=12G --mail-type=ALL'
+
+git clone https://github.com/ccmmf/workflows/
+cd workflows
+git checkout phase-3
+cd 3_rowcrop
+
+
+[step 1 as written]
+[OK, as written once I set up my AWS creds]
+
+[step 2 aws fetch as written]
+
+sed 's/grid_id/id/' data_raw/ERA5_CA_nc/ca_half_degree_grid.csv > ca_half_degree_grid_.csv
+
+CKB todo: Fix grid file and re-upload
+
+$HOST_ARGS ./01_ERA5_nc_to_clim.R \
+	--site_era5_path=data_raw/ERA5_CA_nc \
+	--site_sipnet_met_path=data/ERA5_CA_SIPNET \
+	--site_info_file=ca_half_degree_grid_.csv \
+	--start_date=2016-01-01 \
+	--end_date=2023-12-31 \
+	--n_cores=4
