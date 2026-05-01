@@ -1,0 +1,40 @@
+
+1. Update to latest development version of PEcAn
+
+conda activate pecan-all
+
+cd /path/to/pecan
+
+# if needed
+git stash
+
+git fetch --all --prune
+
+# or gh pr checkout 3894
+# see https://github.com/PecanProject/pecan/pull/3894
+git switch peprmt-inputs-demo
+
+make clean && make
+
+# Kyle and Ryan needed to install new version of knitr (had 1.44, got 1.51 from CRAN)
+# Symptom: error from PEcAn.allometry complaining abut xfun
+Rscript -e 'install.packages("knitr")'
+make # no make clean first --continues from previous failure
+
+
+
+2. Try to run the PEPRMT demo
+
+cd models/peprmt/demo_run
+
+Rscript -e 'rmarkdown::render("run_pecan_peprmt.qmd")'
+# Ryan: error in run.write.configs 
+#	approximate wording ""
+# Kyle error in start.model.runs
+# 
+
+quarto render set_up_inputs.qmd
+# or
+Rscript -e 'rmarkdown::render("set_up_inputs.qmd")'
+
+
