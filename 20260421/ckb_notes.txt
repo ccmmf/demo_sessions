@@ -30,3 +30,17 @@ $HOST_ARGS ./01_ERA5_nc_to_clim.R \
 	--start_date=2016-01-01 \
 	--end_date=2023-12-31 \
 	--n_cores=4
+
+
+2026-04-28:
+
+* We mostly dropped the $HOST_ARGS slurm dispatch in favor of running directly on the local node for demo purposes.
+	- Ryan tried some side experiments while we worked and says slurm directive "export=ALL" should send whole Conda environment to the node, but just adding that to the sbatch call isn't enough by itself
+	- CARB cluster does not support the `--mem` directive I showed; advice is to just leave it unspecified.
+* Input tarball contains broken symlinks to soil moisture files. Need to remove these, but demo can continue because all sites used today are in data/IC_prep/
+* Had not worked people through installing sipnet
+	- shared `install_sipnet.sh` via S3 bucket
+	- Told people to run it as `./install_sipnet.sh ~/sipnet ~/sipnet_binaries ./sipnet.git`
+	- Per Matthias, CARB's disk moount structure means they discourage people from storing executables in their home directory --
+		For production version, sipnet should land somewhere else.
+* Matthias got as far as attempting to run 05_run_model.R. Got an error I failed to write down that we suspect means `parallel` is not installed. We didn't have time to debug live.
