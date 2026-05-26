@@ -33,10 +33,9 @@ aws_secret_access_key = 64hexdigitshere
 
 Now set the endpoint url by adding it to your configuration file. `aws configure` does not set this so we have to manually edit the file.
 
-* Safer option: In your editor of choice, open `~/.aws/config` and find the line that reads `[profile ccmmf]`. Immediately below that, add a line that reads `endpoint_url = https://s3.garage.ccmmf.ncsa.cloud`.
-* YOLO option: If you are _sure_ the `ccmmf` profile is at the bottom of your config file so that adding a new line to the end of the file is adding it to the `ccmmf` profile, skip opening your editor and do `echo 'endpoint_url = https://s3.garage.ccmmf.ncsa.cloud' >> ~/.aws/configure`
+In your editor of choice, open `~/.aws/config` and find the line that reads `[profile ccmmf]`. Immediately below that, add a line that reads `endpoint_url = https://s3.garage.ccmmf.ncsa.cloud`.
 
-If everything went well, the last (or only) section of `~/.aws/config` should look like the following:
+The last (or only) section of `~/.aws/config` should now look like the following:
 
 ```
 [profile ccmmf]
