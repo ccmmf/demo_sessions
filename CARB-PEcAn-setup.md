@@ -14,12 +14,13 @@ Note: do not install this environment to the same location of an existing enviro
 A conda distribution (e.g. miniconda) must be on your path. If it is not present, you can follow this guide [to install miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install/overview).
 
 ### AWS CLI
-The AWS CLI is used to download files from the project fileserver. You will need four pieces of information to configure it:
+The AWS CLI is used to download files from the project fileserver. You will need five pieces of information to configure it:
 
 1. **Profile name**: `ccmmf`
-2. **Endpoint URL**: `https://s3.garage.ccmmf.ncsa.cloud`
-3. **Access key ID**: provided separately — looks like 26 case-sensitive hexadecimal digits
-4. **Secret access key**: provided separately — looks like 64 case-sensitive hexadecimal digits
+2. **Region name**: `garage`
+3. **Endpoint URL**: `https://s3.garage.ccmmf.ncsa.cloud`
+4. **Access key ID**: provided separately — looks like 26 case-sensitive hexadecimal digits
+5. **Secret access key**: provided separately — looks like 64 case-sensitive hexadecimal digits
 
 ## AWS CLI Profile Setup
 
@@ -43,15 +44,16 @@ aws_secret_access_key = yoursecretgoeshereitshouldbe64digitslong
 
 ### Set endpoint URL
 
-`aws configure` does not set the endpoint URL, so add it manually:
+`aws configure` does not set the endpoint URL, so add it manually,
+
+If you're sure the `ccmmf` section is the last one in your config file (which it will be if doing this immediately after adding it via `aws configure` or if you don't have any other profiles):
 
 ```bash
-cat <<EOF >> ~/.aws/config
-[profile ccmmf]
-region = garage
-endpoint_url = https://s3.garage.ccmmf.ncsa.cloud
-EOF
+`echo 'endpoint_url = https://s3.garage.ccmmf.ncsa.cloud' >> ~/.aws/config`
 ```
+
+Or if you're not sure: Open `~/.aws/config` in your text editor, find the section labeled `[ccmmf]`, and add a line immediately below it that reads `endpoint_url = https://s3.garage.ccmmf.ncsa.cloud`.
+
 
 The resulting `ccmmf` section of `~/.aws/config` should look like:
 
