@@ -16,7 +16,7 @@ A conda distribution (e.g. miniconda) must be on your path. If it is not present
 ### AWS CLI
 The AWS CLI is used to download files from the project fileserver. You will need five pieces of information to configure it:
 
-1. **Profile name**: `ccmmf`
+1. **Profile name**: `magic`
 2. **Region name**: `garage`
 3. **Endpoint URL**: `https://s3.garage.ccmmf.ncsa.cloud`
 4. **Access key ID**: provided separately — looks like 26 case-sensitive hexadecimal digits
@@ -24,20 +24,20 @@ The AWS CLI is used to download files from the project fileserver. You will need
 
 ## AWS CLI Profile Setup
 
-Using a named profile keeps the CCMMF credentials and endpoint isolated from any other AWS configuration you may have, preventing conflicts.
+Using a named profile keeps the MAGiC credentials and endpoint isolated from any other AWS configuration you may have, preventing conflicts.
 
 ### Set credentials
 
 Run the following and paste in your access key ID and secret access key when prompted. When asked for a default region, enter `garage`. When asked for output format, press enter to accept the default.
 
 ```bash
-aws configure --profile ccmmf
+aws configure --profile magic
 ```
 
-This writes your credentials to `~/.aws/credentials`. The resulting `ccmmf` section should look like:
+This writes your credentials to `~/.aws/credentials`. The resulting `magic` section should look like:
 
 ```ini
-[ccmmf]
+[magic]
 aws_access_key_id = your24digitkeyidhere
 aws_secret_access_key = yoursecretgoeshereitshouldbe64digitslong
 ```
@@ -46,26 +46,26 @@ aws_secret_access_key = yoursecretgoeshereitshouldbe64digitslong
 
 `aws configure` does not set the endpoint URL, so add it manually.
 
-Use your preferred text editor to add an `endpoint_url` line so that the `ccmmf` section of `~/.aws/config` looks like:
+Use your preferred text editor to add an `endpoint_url` line so that the `magic` section of `~/.aws/config` looks like:
 
 ```ini
-[profile ccmmf]
+[profile magic]
 region = garage
 endpoint_url = https://s3.garage.ccmmf.ncsa.cloud
 ```
 
-Note: `region = garage` is required by the AWS CLI to construct certain requests correctly, even though this is not an AWS service. Also note that the config file uses `[profile ccmmf]` while the credentials file uses `[ccmmf]` — the word `profile` is only present in the config file. Hand-editing errors here cause difficult-to-diagnose failures.
+Note: `region = garage` is required by the AWS CLI to construct certain requests correctly, even though this is not an AWS service. Also note that the config file uses `[profile magic]` while the credentials file uses `[magic]` — the word `profile` is only present in the config file. Hand-editing errors here cause difficult-to-diagnose failures.
 
 ### Verify access
 
 Run either of the following. If the profile is configured correctly, you will see a listing of the CARB bucket contents.
 
 ```bash
-aws s3 ls --profile ccmmf s3://carb/
+aws s3 ls --profile magic s3://carb/
 ```
 
 ```bash
-AWS_PROFILE=ccmmf aws s3 ls s3://carb/
+AWS_PROFILE=magic aws s3 ls s3://carb/
 ```
 
 ## Install
@@ -79,7 +79,7 @@ The version specified here (`1.10`) is the only version currently available, but
 Exporting `AWS_PROFILE` once for the session means all subsequent commands pick it up automatically, including the setup script:
 
 ```bash
-export AWS_PROFILE=ccmmf
+export AWS_PROFILE=magic
 aws s3 cp s3://carb/deploy/setup-pecan-env.sh ./
 bash setup-pecan-env.sh 1.10 ~/.conda/envs/pecan-all
 ```
@@ -89,8 +89,8 @@ bash setup-pecan-env.sh 1.10 ~/.conda/envs/pecan-all
 If you prefer not to export, pass the profile explicitly on each command:
 
 ```bash
-aws s3 cp --profile ccmmf s3://carb/deploy/setup-pecan-env.sh ./
-AWS_PROFILE=ccmmf bash setup-pecan-env.sh 1.10 ~/.conda/envs/pecan-all
+aws s3 cp --profile magic s3://carb/deploy/setup-pecan-env.sh ./
+AWS_PROFILE=magic bash setup-pecan-env.sh 1.10 ~/.conda/envs/pecan-all
 ```
 
 ### Activate the environment
