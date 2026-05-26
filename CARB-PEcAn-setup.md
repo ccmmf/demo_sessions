@@ -14,12 +14,13 @@ Note: do not install this environment to the same location of an existing enviro
 A conda distribution (e.g. miniconda) must be on your path. If it is not present, you can follow this guide [to install miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install/overview).
 
 ### AWS CLI
-The AWS CLI is used to download files from the project fileserver. You will need four pieces of information to configure it:
+The AWS CLI is used to download files from the project fileserver. You will need five pieces of information to configure it:
 
 1. **Profile name**: `ccmmf`
-2. **Endpoint URL**: `https://s3.garage.ccmmf.ncsa.cloud`
-3. **Access key ID**: provided separately — looks like 26 case-sensitive hexadecimal digits
-4. **Secret access key**: provided separately — looks like 64 case-sensitive hexadecimal digits
+2. **Region name**: `garage`
+3. **Endpoint URL**: `https://s3.garage.ccmmf.ncsa.cloud`
+4. **Access key ID**: provided separately — looks like 26 case-sensitive hexadecimal digits
+5. **Secret access key**: provided separately — looks like 64 case-sensitive hexadecimal digits
 
 ## AWS CLI Profile Setup
 
@@ -43,17 +44,9 @@ aws_secret_access_key = yoursecretgoeshereitshouldbe64digitslong
 
 ### Set endpoint URL
 
-`aws configure` does not set the endpoint URL, so add it manually:
+`aws configure` does not set the endpoint URL, so add it manually.
 
-```bash
-cat <<EOF >> ~/.aws/config
-[profile ccmmf]
-region = garage
-endpoint_url = https://s3.garage.ccmmf.ncsa.cloud
-EOF
-```
-
-The resulting `ccmmf` section of `~/.aws/config` should look like:
+Use your preferred text editor to add an `endpoint_url` line so that the `ccmmf` section of `~/.aws/config` looks like:
 
 ```ini
 [profile ccmmf]
