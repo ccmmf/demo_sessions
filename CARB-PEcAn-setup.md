@@ -44,7 +44,7 @@ aws_secret_access_key = yoursecretgoeshereitshouldbe64digitslong
 
 ### Set endpoint URL
 
-`aws configure` does not set the endpoint URL, so add it manually,
+`aws configure` does not set the endpoint URL, so add it manually.
 
 If you're sure the `ccmmf` section is the last one in your config file (which it will be if doing this immediately after adding it via `aws configure` or if you don't have any other profiles):
 
