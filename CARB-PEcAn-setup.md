@@ -14,6 +14,9 @@ Note: do not install this environment to the same location of an existing enviro
 A conda distribution (e.g. miniconda) must be on your path. If it is not present, you can follow this guide [to install miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install/overview).
 
 ### AWS CLI
+
+**Note**: These instructions were written assuming AWS CLI version 2.0 or greater. We have run it successfully with versions as old as 1.45 but encountered issues with 1.23. Please use version 2 if available (you can check with `aws --version`), and tell us what works or not.
+
 The AWS CLI is used to download files from the project fileserver. You will need five pieces of information to configure it:
 
 1. **Profile name**: `magic`
