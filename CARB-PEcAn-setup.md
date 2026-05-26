@@ -52,7 +52,7 @@ If you're sure the `ccmmf` section is the last one in your config file (which it
 `echo 'endpoint_url = https://s3.garage.ccmmf.ncsa.cloud' >> ~/.aws/config`
 ```
 
-Or if you're not sure: Open `~/.aws/config` in your text editor, find the section labeled `[ccmmf]`, and add a line immediately below it that reads `endpoint_url = https://s3.garage.ccmmf.ncsa.cloud`.
+Or if you're not sure: Open `~/.aws/config` in your text editor, find the section labeled `[profile ccmmf]`, and add a line immediately below it that reads `endpoint_url = https://s3.garage.ccmmf.ncsa.cloud`.
 
 
 The resulting `ccmmf` section of `~/.aws/config` should look like:
