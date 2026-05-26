@@ -1,14 +1,15 @@
 # S3 access configuration for MAGiC file retrieval
 
-This guide shows how to configure your access keys to retrieve data from the project fileserver, which is hosted by project partner NCSA and speaks the S3 protocol. We use the `aws` command line tools to interact with that server, but importantly this is _not_ an Amazon service and if you ever see an error messages that includes a URL with "amazonaws.com" in it, that's a good sign something is not configured right.
+This guide shows how to configure your access keys to retrieve data from the project fileserver, which is hosted by project partner NCSA and speaks the S3 protocol. We use the `aws` command line tools to interact with that server, but importantly this is _not_ an Amazon service; if you ever see an error messages that includes a URL with "amazonaws.com" in it, that's a good sign something is not configured right.
 
-To configure S3 access you need four pieces of information:
-1. The _profile name_: `ccmmf`
-2. The _endpoint url_: `https://garage.s3.ccmmf.ncsa.cloud`
-3. An _access key id_: Provided separately. Looks like 26 case-sensitive hexadecimal digits. 
-4. A _secret access key_: Provided separately. Looks like 64 case-sensitive hexadecimal digits.
+To configure S3 access you need five pieces of information:
+1. A _profile name_: `ccmmf`
+2. An _access key id_: Provided separately. Looks like 26 case-sensitive hexadecimal digits.
+3. A _secret access key_: Provided separately. Looks like 64 case-sensitive hexadecimal digits.
+4. A _region name_: `garage`
+5. An _endpoint url_: `https://garage.s3.ccmmf.ncsa.cloud`
 
-If you have any existing AWS configurations for other projects, this will leave them untouched. In the steps below that involve looking at the configuration files, you should see a `ccmmf` section added to the end with your pre-existing profile(s) untouched above it.
+If you have any existing AWS configurations for other projects, the steps below will leave them untouched. When looking at the configuration files afterward, you should see a `ccmmf` section added to the end with your pre-existing profile(s) still in place above it.
 
 
 ## Set access keys
@@ -17,7 +18,7 @@ If you have any existing AWS configurations for other projects, this will leave 
 aws configure --profile ccmmf
 ```
 
-It will prompt you for your access key id, then secret access key. Paste in each one and press enter to submit. It will then prompt for a default region name,and output format. Press enter to accept the defaults.
+It will prompt you for your access key id, then secret access key. Paste in each one and press enter to submit. It will then prompt for a default region name. Type `garage` and press enter. Last will be a default output format. Press enter to leave this unset.
 
 This will write the keys to a file named `~/.aws/credentials`. If everything went well, the last (or only, if this is your first time configuring AWS on this machine) section of that file should now look like the following:
 
@@ -30,17 +31,10 @@ aws_secret_access_key = 64hexdigitshere
 
 ## Set endpoint URL
 
-Now set the endpoint url by adding it to your configuration file. Annoyingly, `aws configure` does not touch this so we have to manually edit the file.
+Now set the endpoint url by adding it to your configuration file. `aws configure` does not set this so we have to manually edit the file.
 
-```sh
-cat <<EOF >> ~/.aws/config
-[profile ccmmf]
-region = garage
-endpoint_url = https://s3.garage.ccmmf.ncsa.cloud
-EOF
-```
-
-Note that the section header for the config file is `[profile ccmmf]` while the credential file just uses `[ccmmf]` without the word "profile". Make sure not to forget this when hand-editing the files, or strange errors will happen... ask us how we know this :(
+* Safer option: In your editor of choice, open `~/.aws/config` and find the line that reads `[profile ccmmf]`. Immediately below that, add a line that reads `endpoint_url = https://s3.garage.ccmmf.ncsa.cloud`.
+* YOLO option: If you are _sure_ the `ccmmf` profile is at the bottom of your config file so that adding a new line to the end of the file is adding it to the `ccmmf` profile, skip opening your editor and do `echo 'endpoint_url = https://s3.garage.ccmmf.ncsa.cloud' >> ~/.aws/configure`
 
 If everything went well, the last (or only) section of `~/.aws/config` should look like the following:
 
@@ -49,6 +43,8 @@ If everything went well, the last (or only) section of `~/.aws/config` should lo
 region = garage
 endpoint_url = https://s3.garage.ccmmf.ncsa.cloud
 ```
+
+Note also how the section header for the config file is `[profile ccmmf]` while the credential file just uses `[ccmmf]` without the word "profile". Make sure not to confuse these when hand-editing the files, or strange errors will happen... ask us how we know this :(
 
 ## Set profile in your environment
 
