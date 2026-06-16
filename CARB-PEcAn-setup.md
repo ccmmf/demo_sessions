@@ -15,7 +15,7 @@ A conda distribution (e.g. miniconda) must be on your path. If it is not present
 
 ### AWS CLI
 
-**Note**: These instructions were written assuming AWS CLI version 2.0 or greater. We have run it successfully with versions as old as 1.45.1 and it should run successfully with any AWS CLI version later than 1.29. 
+**Note**: These instructions were written assuming AWS CLI version 2.0 or greater. We have run it successfully with versions as old as 1.45.1 and it should run successfully with any AWS CLI version later than 1.29.
 
 You should be able to load a compatible version of the AWS CLI by executing:
 ```bash
