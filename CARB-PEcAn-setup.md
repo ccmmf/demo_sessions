@@ -15,7 +15,16 @@ A conda distribution (e.g. miniconda) must be on your path. If it is not present
 
 ### AWS CLI
 
-**Note**: These instructions were written assuming AWS CLI version 2.0 or greater. We have run it successfully with versions as old as 1.45.1 but encountered issues with 1.23.2. Please use version 2 if available (you can check with `aws --version`), and tell us what works or not.
+**Note**: These instructions were written assuming AWS CLI version 2.0 or greater. We have run it successfully with versions as old as 1.45.1 and it should run successfully with any AWS CLI version later than 1.29. 
+
+You should be able to load a compatible version of the AWS CLI by executing:
+```bash
+module load awscli_v2
+```
+Your AWS CLI version can be confirmed with:
+```bash
+aws --version
+```
 
 The AWS CLI is used to download files from the project fileserver. You will need five pieces of information to configure it:
 
@@ -44,6 +53,8 @@ This writes your credentials to `~/.aws/credentials`. The resulting `magic` sect
 aws_access_key_id = your24digitkeyidhere
 aws_secret_access_key = yoursecretgoeshereitshouldbe64digitslong
 ```
+
+**Note**: it is strongly recommended that you name your profile `magic`, as this is the default profile name used in aws-dependent areas of the magic codebase. If you wish to use a different profile name, you will need to update the user-facing configuration of the magic CLIs, as well as any AWS CLI commands you run.
 
 ### Set endpoint URL
 
