@@ -86,7 +86,7 @@ AWS_PROFILE=magic aws s3 ls s3://carb/
 
 In this example, `~/.conda/envs/pecan-all` is the target location, but you may want to put this somewhere other than your home directory.
 
-The version specified here (`1.10`) is the only version currently available, but this will change over time. Choose a target location with the expectation that you will need to install a new version in the future.
+The version specified here (`1.15`) is the newest version available at this writing in August 2026, but this will change over time. Choose a target location with the expectation that you will need to install a new version in the future.
 
 ### With export
 
@@ -95,7 +95,7 @@ Exporting `AWS_PROFILE` once for the session means all subsequent commands pick 
 ```bash
 export AWS_PROFILE=magic
 aws s3 cp s3://carb/deploy/setup-pecan-env.sh ./
-bash setup-pecan-env.sh 1.10 ~/.conda/envs/pecan-all
+bash setup-pecan-env.sh 1.15 ~/.conda/envs/pecan-all
 ```
 
 ### Without export
@@ -104,7 +104,7 @@ If you prefer not to export, pass the profile explicitly on each command:
 
 ```bash
 aws s3 cp --profile magic s3://carb/deploy/setup-pecan-env.sh ./
-AWS_PROFILE=magic bash setup-pecan-env.sh 1.10 ~/.conda/envs/pecan-all
+AWS_PROFILE=magic bash setup-pecan-env.sh 1.15 ~/.conda/envs/pecan-all
 ```
 
 ### Activate the environment
